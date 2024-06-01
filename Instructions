@@ -1,0 +1,17 @@
+*Step 1: Install gedit*
+$ sudo apt install gedit   (for ubuntu/debian)
+$ sudo dnf install gedit      (for Fedora)
+$ sudo pacman -S gedit       (for Arch Linux)
+$ sudo zypper install gedit   (for OpenSUSE)
+
+
+*Step 2: Setup Script*
+$ gedit ezfind  (after gedit comes the NAme of the application, in this case it wil be ezfind.
+
+now open the file "ezfind (script)" and copy & paste contents into gedit ad press "save".
+
+now run the script with the following command. 
+
+$ python3 ezfind
+
+
