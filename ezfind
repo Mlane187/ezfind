@@ -1,0 +1,45 @@
+import requests
+from bs4 import BeautifulSoup
+
+def google_search(query, country):
+    search_url = "https://www.google.com/search"
+    params = {
+        "q": f"{query} site:{country}",
+        "hl": "en",
+    }
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    response = requests.get(search_url, params=params, headers=headers)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    results = []
+    for g in soup.find_all('div', class_='tF2Cxc'):
+        title = g.find('h3')
+        link = g.find('a')
+        snippet = g.find('span', class_='aCOpRe')
+
+        if title and link:
+            result = {
+                'title': title.text,
+                'link': link['href'],
+                'snippet': snippet.text if snippet else 'No snippet available'
+            }
+            results.append(result)
+    return results
+
+def search_item():
+    item = input("Enter the item you are looking for: ")
+    country = input("Enter the country code (e.g., 'com' for USA, 'co.uk' for UK): ")
+    max_price = input("Enter the maximum price you are willing to pay: ")
+
+    google_results = google_search(item, country)
+    
+    print("\nGoogle Search Results:")
+    for idx, result in enumerate(google_results, start=1):
+        print(f"{idx}. {result['title']}")
+        print(f"Link: {result['link']}")
+        print(f"Snippet: {result['snippet']}\n")
+
+if __name__ == "__main__":
+    search_item()
